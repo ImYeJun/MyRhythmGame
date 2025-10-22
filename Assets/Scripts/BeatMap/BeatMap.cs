@@ -18,7 +18,7 @@ public class BeatMap {
     /// @param coverImageURL 
     /// @param musicURL
     /// </summary>
-    public BeatMap(string jsonURL, string coverImageURL, string musicURL)
+    public BeatMap(string jsonPath, string coverImagePath, string musicPath)
     {
         // TODO implement here
     }
