@@ -1,11 +1,8 @@
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Unity.Burst.CompilerServices;
 
-public class Note {
+[Serializable]
+public class Note
+{
     public readonly static int SHORT_NOTE = 0;
     public readonly static int LONG_NOTE = 1;
 
@@ -20,13 +17,16 @@ public class Note {
     /// @param type 
     /// @param length
     /// </summary>
-    public Note(float beat, int lane, int type, int length) {
-        // TODO implement here
+    public Note(float beat, int lane, int type, int length)
+    {
+        this.beat = beat;
+        this.lane = lane;
+        this.type = type;
+        this.length = length;
     }
 
     public float Beat { get => beat; }
     public int Lane { get => lane; }
     public int Type { get => type; }
     public int Length { get => length; }
-
 }

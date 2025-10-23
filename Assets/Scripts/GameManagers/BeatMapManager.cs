@@ -5,7 +5,8 @@ using System.Linq;
 using System;
 
 public class BeatMapManager : GameManager<BeatMapManager> {
-    private readonly static string BEAT_MAP_FOLDER_URL = Path.Combine(Application.dataPath, "BeatMap");
+    private readonly static string BEAT_MAP_FOLDER_URL = Path.Combine(Application.dataPath, "Resources/BeatMap");
+    private readonly static string BASE_PATH_FOR_RESOURCES_FOLDER = Application.dataPath; //Path.Combine(Application.dataPath, "Resources");
 
     private Dictionary<string, BeatMap> beatMaps = new Dictionary<string, BeatMap>();
     public Dictionary<string, BeatMap> BeatMaps { get => beatMaps; }
@@ -44,7 +45,11 @@ public class BeatMapManager : GameManager<BeatMapManager> {
                 return ext == ".mp3" || ext == ".wav" || ext == ".ogg" || ext == ".flac";
             });
 
-        if (jsonPath == null || coverImagePath == null || musicPath == null ) return false;
+        if (jsonPath == null || coverImagePath == null || musicPath == null) return false;
+
+        jsonPath = Path.GetRelativePath(BASE_PATH_FOR_RESOURCES_FOLDER, jsonPath);
+        coverImagePath = Path.GetRelativePath(BASE_PATH_FOR_RESOURCES_FOLDER, coverImagePath);
+        musicPath = Path.GetRelativePath(BASE_PATH_FOR_RESOURCES_FOLDER, musicPath);
 
         BeatMap beatMap = new BeatMap(jsonPath, coverImagePath, musicPath);
 

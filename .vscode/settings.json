@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "MyRhythmGame.slnx"
+    "dotnet.defaultSolution": "MyRhythmGame.slnx",
+    "C_Cpp.default.compilerPath": "cl.exe"
 }
