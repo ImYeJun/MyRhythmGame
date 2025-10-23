@@ -6,7 +6,6 @@ using System;
 
 public class BeatMapManager : GameManager<BeatMapManager> {
     private readonly static string BEAT_MAP_FOLDER_URL = Path.Combine(Application.dataPath, "Resources/BeatMap");
-    private readonly static string BASE_PATH_FOR_RESOURCES_FOLDER = Application.dataPath; //Path.Combine(Application.dataPath, "Resources");
 
     private Dictionary<string, BeatMap> beatMaps = new Dictionary<string, BeatMap>();
     public Dictionary<string, BeatMap> BeatMaps { get => beatMaps; }
@@ -16,20 +15,19 @@ public class BeatMapManager : GameManager<BeatMapManager> {
         InitiateBeatMap();
     }
 
-    private bool InitiateBeatMap() {
+    private void InitiateBeatMap() {
         string[] beatMapDataFolderPaths = Directory.GetDirectories(BEAT_MAP_FOLDER_URL);
 
         foreach (string folderPath in beatMapDataFolderPaths)
         {
-            bool isBeatMapGenerated = AddBeatMap(folderPath);
-
-            if (!isBeatMapGenerated) return false;
+            if (!TryAddBeatMap(folderPath))
+            {
+                Debug.LogError($"Failed To Load BeatMap (Path : {folderPath})");
+            }
         }
-
-        return true;
     }
 
-    public bool AddBeatMap(string folderPath)
+    public bool TryAddBeatMap(string folderPath)
     {
         string[] allFilePaths = Directory.GetFiles(folderPath);
 
@@ -47,10 +45,6 @@ public class BeatMapManager : GameManager<BeatMapManager> {
 
         if (jsonPath == null || coverImagePath == null || musicPath == null) return false;
 
-        jsonPath = Path.GetRelativePath(BASE_PATH_FOR_RESOURCES_FOLDER, jsonPath);
-        coverImagePath = Path.GetRelativePath(BASE_PATH_FOR_RESOURCES_FOLDER, coverImagePath);
-        musicPath = Path.GetRelativePath(BASE_PATH_FOR_RESOURCES_FOLDER, musicPath);
-
         BeatMap beatMap = new BeatMap(jsonPath, coverImagePath, musicPath);
 
         beatMaps.Add(beatMap.HashCode, beatMap);
@@ -58,5 +52,5 @@ public class BeatMapManager : GameManager<BeatMapManager> {
         return true;
     }
 
-    public bool GetBeatMap(string hashCode, out BeatMap beatMap) => beatMaps.TryGetValue(hashCode, out beatMap);
+    public bool TryGetBeatMap(string hashCode, out BeatMap beatMap) => beatMaps.TryGetValue(hashCode, out beatMap);
 }

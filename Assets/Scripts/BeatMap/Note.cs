@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class Note
@@ -6,10 +7,10 @@ public class Note
     public readonly static int SHORT_NOTE = 0;
     public readonly static int LONG_NOTE = 1;
 
-    private float beat;
-    private int lane;
-    private int type;
-    private int length;
+    [SerializeField] private float beat;
+    [SerializeField] private int lane;
+    [SerializeField] private int type;
+    [SerializeField] private int length;
 
     /// <summary>
     /// @param beat 
