@@ -506,10 +506,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4669901953289391977, guid: a9d5df271d6347b4397fe2cb0619b722, type: 3}
-      propertyPath: initialSoundEffectAudioSourcePoolCount
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
