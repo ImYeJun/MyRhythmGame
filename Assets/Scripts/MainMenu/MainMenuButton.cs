@@ -17,6 +17,8 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClick
 
     private void Awake() {
         text = GetComponentInChildren<TextMeshProUGUI>();
+
+        text.color = defaultTextColor;
     }
 
     public void ActivateSelectedEffect()

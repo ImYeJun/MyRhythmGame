@@ -180,8 +180,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 34a7287f261c31d4dbffdc21b08c52f7, type: 2}
+  m_sharedMaterial: {fileID: -2420033666366431483, guid: 34a7287f261c31d4dbffdc21b08c52f7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -423,8 +423,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Stage
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 34a7287f261c31d4dbffdc21b08c52f7, type: 2}
+  m_sharedMaterial: {fileID: -2420033666366431483, guid: 34a7287f261c31d4dbffdc21b08c52f7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -589,8 +589,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4b7a5683523834fbadb2afb23d1385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultTextColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedTextColor: {r: 0, g: 0.03676009, b: 1, a: 1}
+  defaultTextColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+  selectedTextColor: {r: 0.9632953, g: 0.39215684, b: 1, a: 1}
   sceneType: 0
 --- !u!1 &1333460137
 GameObject:
@@ -861,8 +861,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4b7a5683523834fbadb2afb23d1385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultTextColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedTextColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultTextColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+  selectedTextColor: {r: 1, g: 0.39215684, b: 0.40155497, a: 1}
   sceneType: 0
 --- !u!1 &1709465473
 GameObject:
@@ -953,7 +953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4b7a5683523834fbadb2afb23d1385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultTextColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultTextColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   selectedTextColor: {r: 0, g: 1, b: 0.203542, a: 1}
   sceneType: 1
 --- !u!1 &1731103395
@@ -1094,8 +1094,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Compose
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 34a7287f261c31d4dbffdc21b08c52f7, type: 2}
+  m_sharedMaterial: {fileID: -2420033666366431483, guid: 34a7287f261c31d4dbffdc21b08c52f7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
