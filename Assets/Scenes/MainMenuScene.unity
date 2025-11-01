@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 1179258768}
   - component: {fileID: 1179258767}
   m_Layer: 0
-  m_Name: MainMenuInputManager
+  m_Name: InputHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,7 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultTextColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   selectedTextColor: {r: 0.9632953, g: 0.39215684, b: 1, a: 1}
-  sceneType: 0
+  sceneType: 2
 --- !u!1 &1333460137
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,7 +863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultTextColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   selectedTextColor: {r: 1, g: 0.39215684, b: 0.40155497, a: 1}
-  sceneType: 0
+  sceneType: 4
 --- !u!1 &1709465473
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultTextColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   selectedTextColor: {r: 0, g: 1, b: 0.203542, a: 1}
-  sceneType: 1
+  sceneType: 3
 --- !u!1 &1731103395
 GameObject:
   m_ObjectHideFlags: 0

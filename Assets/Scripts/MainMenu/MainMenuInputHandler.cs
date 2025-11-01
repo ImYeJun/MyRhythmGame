@@ -19,7 +19,7 @@ public class MainMenuInputHandler : MonoBehaviour, IInputHandler
             mainMenuButtons[i].onHover += () => { SetCurrentButtonIndex(index); };
             mainMenuButtons[i].onClick += () => {
                 if (currentButtonIndex != index) { SetCurrentButtonIndex(index, false); }
-                LoadSelctedScene();
+                LoadCurrentSelctedScene();
             };
         }
 
@@ -52,14 +52,14 @@ public class MainMenuInputHandler : MonoBehaviour, IInputHandler
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            LoadSelctedScene();
+            LoadCurrentSelctedScene();
         }
     }
 
-    private void LoadSelctedScene()
+    private void LoadCurrentSelctedScene()
     {
         SoundManager.Instance.PlaySoundEffect(sceneEnterSFX);
-        Debug.Log($"Change Scene To {mainMenuButtons[currentButtonIndex].SceneType}");
+        GameSceneManager.Instance.LoadScene(mainMenuButtons[currentButtonIndex].SceneType);
     }
 
     private void SetCurrentButtonIndex(int value, bool playSFX = true)
