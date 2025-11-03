@@ -12,6 +12,8 @@ public class BeatMap
     private int lobbyIntroStartTime;
     private int lobbyIntroDuration;
     private List<BpmPoint> bpmPoints = new List<BpmPoint>();
+    private float minBpm;
+    private float maxBpm;
     private List<Note> notes = new List<Note>();
     private AudioClip clip;
     private Sprite coverImage;
@@ -23,11 +25,13 @@ public class BeatMap
     public int LobbyIntroStartTime { get => lobbyIntroStartTime; }
     public int LobbyIntroDuration { get => lobbyIntroDuration; }
     public List<BpmPoint> BpmPoints { get => bpmPoints; }
+    public float MinBpm { get => minBpm; }
+    public float MaxBpm { get => maxBpm; }
     public List<Note> Notes { get => notes; set => notes = value; }
     public AudioClip Clip { get => clip; }
     public Sprite CoverImage { get => coverImage; }
     public string HashCode { get => hashCode; }
-    
+
     /// <summary>
     /// all path parameters must be absoulte path.
     /// </summary>
@@ -44,6 +48,22 @@ public class BeatMap
         lobbyIntroDuration = data.meta.lobbyIntroDuration;
         bpmPoints = data.bpmPoints;
         notes = data.notes;
+
+        // 최소, 최대 bpm 구하기 (단, bpmPoint가 한개 이상일 때만)
+        if (bpmPoints.Count != 0)
+        {
+            float currentMinBpm, currentMaxBpm;
+            currentMinBpm = currentMaxBpm = bpmPoints[0].bpm; // BeatMap 생성시 bpmPoints의 원소가 반드시 한 개 이상임이 보장된다.
+            foreach (BpmPoint bpmPoint in bpmPoints)
+            {
+                float currentBpm = bpmPoint.bpm;
+                if (bpmPoint.bpm < currentMinBpm) { currentMinBpm = currentBpm; }
+                if (bpmPoint.bpm > currentMaxBpm) { currentMaxBpm = currentBpm; }
+            }
+
+            minBpm = currentMinBpm;
+            maxBpm = currentMaxBpm;
+        }
 
         // Resources 상대 경로 변환
         string coverResourcePath = ConvertToResourcesPath(coverImagePath);

@@ -1,13 +1,13 @@
 {
     "meta": {
-        "trackTitle": "Peekaboo",
-        "composer": "Kyatto",
+        "trackTitle": "enchanted love",
+        "composer": "linear ring",
         "syncDelay" : 1500,
         "lobbyIntroStartTime" : 3500,
         "lobbyIntroDuration" : 10000
     },
     "bpmPoints": [
-        { "bpm": 160.0, "time": 0 }
+        { "bpm": 190.0, "time": 0 }
     ],
     "notes": [
         { "beat": 1, "lane": 1, "type": 1, "length": 1 },

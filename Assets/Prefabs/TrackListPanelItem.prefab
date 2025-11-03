@@ -572,8 +572,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31.548096, y: 12.500092}
-  m_SizeDelta: {x: 116.5322, y: 25}
+  m_AnchoredPosition: {x: 81.26932, y: 12.500092}
+  m_SizeDelta: {x: 215.9747, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &569578311918553899
 CanvasRenderer:
@@ -708,8 +708,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.2518463, y: 0.000089645386}
-  m_SizeDelta: {x: 38.591, y: 12.0408}
+  m_AnchoredPosition: {x: 81.855, y: 0.000089645386}
+  m_SizeDelta: {x: 214.8, y: 12.0408}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4086318970554642814
 CanvasRenderer:
@@ -897,8 +897,9 @@ GameObject:
   - component: {fileID: 4629972838909461893}
   - component: {fileID: 128198227334315298}
   - component: {fileID: 1018250099731114686}
+  - component: {fileID: 2718415351188561827}
   m_Layer: 5
-  m_Name: MusicItem
+  m_Name: TrackListPanelItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -963,6 +964,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2718415351188561827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5578918143006153048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a8b545fee3ea9f4dbd7b2970415c2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 1018250099731114686}
+  trackCoverImage: {fileID: 5151472572929354714}
+  trackTitleText: {fileID: 6205687970337177834}
+  composerText: {fileID: 686970209161798749}
+  bpmText: {fileID: 3330717596055668535}
+  basicResultText: {fileID: 6436903795628323924}
+  intermediateResultText: {fileID: 4884451759482891153}
+  professionalResultText: {fileID: 4083218053549210802}
 --- !u!1 &5860295473560463535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,8 +1219,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19.253159, y: -18.69991}
-  m_SizeDelta: {x: 89.6002, y: 9.2123}
+  m_AnchoredPosition: {x: 81.85402, y: -18.69991}
+  m_SizeDelta: {x: 214.8, y: 9.2123}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4443508339643527427
 CanvasRenderer:

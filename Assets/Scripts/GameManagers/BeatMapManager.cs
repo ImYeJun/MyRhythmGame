@@ -7,11 +7,14 @@ using System;
 public class BeatMapManager : GameManager<BeatMapManager> {
     private readonly static string BEAT_MAP_FOLDER_URL = Path.Combine(Application.dataPath, "Resources/BeatMap");
 
-    private Dictionary<string, BeatMap> beatMaps = new Dictionary<string, BeatMap>();
-    public Dictionary<string, BeatMap> BeatMaps { get => beatMaps; }
+    private Dictionary<string, BeatMap> beatMapDictionary = new Dictionary<string, BeatMap>();
+    public List<BeatMap> BeatMaps { get => beatMapDictionary.Values.ToList(); }
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
+        if (Instance != this) return;
+
         InitiateBeatMap();
     }
 
@@ -43,14 +46,23 @@ public class BeatMapManager : GameManager<BeatMapManager> {
                 return ext == ".mp3" || ext == ".wav" || ext == ".ogg" || ext == ".flac";
             });
 
-        if (jsonPath == null || coverImagePath == null || musicPath == null) return false;
+        if (jsonPath == null || coverImagePath == null || musicPath == null) {
+            Debug.LogError($"폴더 내에 필수 파일이 모두 존재하지 않습니다. (Path : {folderPath})");
+            return false;
+        }
 
         BeatMap beatMap = new BeatMap(jsonPath, coverImagePath, musicPath);
 
-        beatMaps.Add(beatMap.HashCode, beatMap);
+        if (beatMap.BpmPoints.Count == 0)
+        {
+            Debug.LogError($"파일내의 Bpm 표시 형식이 유효하지 않습니다. (Path : {folderPath})");
+            return false;
+        }
+
+        beatMapDictionary.Add(beatMap.HashCode, beatMap);
 
         return true;
     }
 
-    public bool TryGetBeatMap(string hashCode, out BeatMap beatMap) => beatMaps.TryGetValue(hashCode, out beatMap);
+    public bool TryGetBeatMap(string hashCode, out BeatMap beatMap) => beatMapDictionary.TryGetValue(hashCode, out beatMap);
 }

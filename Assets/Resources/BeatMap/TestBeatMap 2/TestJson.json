@@ -1,12 +1,14 @@
 {
     "meta": {
-        "trackTitle": "Peekaboo",
-        "composer": "Kyatto",
+        "trackTitle": "대충 명곡",
+        "composer": "대충 개쩌는 작곡가",
         "syncDelay" : 1500,
         "lobbyIntroStartTime" : 3500,
         "lobbyIntroDuration" : 10000
     },
     "bpmPoints": [
+        { "bpm": 120.0, "time": 0 },
+        { "bpm": 140.0, "time": 0 },
         { "bpm": 160.0, "time": 0 }
     ],
     "notes": [

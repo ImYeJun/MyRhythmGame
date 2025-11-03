@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class StageSceneInputHandler : MonoBehaviour, IInputHandler
@@ -9,6 +11,14 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
     private void Start()
     {
         InputManager.Instance.AddInputHandler(InputManager.InputPriority.MainUI, this);
+        StartCoroutine(WaitTrackListPanelReloaded());
+    }
+
+    private IEnumerator WaitTrackListPanelReloaded()
+    {
+        yield return new WaitUntil(() => trackListPanel.HasReloaded);
+
+        SyncSelectedTrackToDisplay();
     }
 
     private void OnDestroy()
@@ -22,7 +32,31 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
         {
             GameSceneManager.Instance.LoadScene(GameSceneManager.SceneType.MainMenuScene);
         }
+        
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            trackListPanel.MovePreviousSelection();
+            SyncSelectedTrackToDisplay();
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            trackListPanel.MoveNextSelection();
+            SyncSelectedTrackToDisplay();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            trackOptionController.DecreaseNoteSpeed();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            trackOptionController.IncreaseNoteSpeed();
+        }
+    }
 
-        //TODO 입력 키에 따라서 trackOptionController,trackListPanel,selectedTrackDisplay의 메소드 호출하기
+    private void SyncSelectedTrackToDisplay()
+    {
+        BeatMap currentTrack = trackListPanel.SelectedTrack();
+        selectedTrackDisplay.SetSelectedTrack(currentTrack, trackOptionController.CurrentJudgeLevel);
     }
 }
