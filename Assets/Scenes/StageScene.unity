@@ -3099,6 +3099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b66c94217ef7848b9809e3476d48a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteSpeedText: {fileID: 121251772}
   DEFAULT_NOTE_SPEED: 5
   DEFAULT_JUDGE_LEVEL: 1
 --- !u!4 &1245626468
