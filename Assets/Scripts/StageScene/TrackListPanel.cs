@@ -33,7 +33,7 @@ public class TrackListPanel : MonoBehaviour
         }
         trackItemList.Clear();
 
-        foreach (TrackMap beatMap in BeatMapManager.Instance.TrackMaps)
+        foreach (TrackMap beatMap in TrackMapManager.Instance.TrackMaps)
         {
             GameObject trackListPanelItemGameObject = Instantiate(trackListPanelItemPrefab, contentTransform, false);
             TrackListPanelItem trackListPanelItem = trackListPanelItemGameObject.GetComponent<TrackListPanelItem>(); //trackListPanelItemPrefab는 반드시 TrackListPanelItem을 갖고 있음이 보장 된다

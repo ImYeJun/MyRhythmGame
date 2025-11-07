@@ -4,11 +4,28 @@ using System.IO;
 using System.Linq;
 using System;
 
-public class BeatMapManager : GameManager<BeatMapManager> {
+public class TrackMapManager : GameManager<TrackMapManager> {
     private readonly static string TRACK_MAP_FOLDER_URL = Path.Combine(Application.dataPath, "Resources/TrackMap");
 
-    private Dictionary<string, TrackMap> trackMapDictionary = new Dictionary<string, TrackMap>();
-    public List<TrackMap> TrackMaps { get => trackMapDictionary.Values.ToList(); }
+    private class TrackMapDictionaryItem
+    {
+        private readonly string trackMapDataFolderPath;
+        private readonly TrackMap trackMap;
+
+        public string TrackMapDataFolderPath => trackMapDataFolderPath;
+        public TrackMap TrackMap => trackMap;
+
+        public TrackMapDictionaryItem(string trackMapDataFolderPath, TrackMap trackMap)
+        {
+            this.trackMapDataFolderPath = trackMapDataFolderPath;
+            this.trackMap = trackMap;
+        }
+    }
+
+    private Dictionary<string, TrackMapDictionaryItem> trackMapDictionary = new Dictionary<string, TrackMapDictionaryItem>();
+    public List<TrackMap> TrackMaps => trackMapDictionary.Values
+        .Select(item => item.TrackMap)
+        .ToList();
 
     protected override void Awake()
     {
@@ -59,10 +76,24 @@ public class BeatMapManager : GameManager<BeatMapManager> {
             return false;
         }
 
-        trackMapDictionary.Add(trackMap.HashCode, trackMap);
+        TrackMapDictionaryItem trackMapDictionaryItem = new TrackMapDictionaryItem(folderPath, trackMap);
+        trackMapDictionary.Add(trackMap.HashCode, trackMapDictionaryItem);
 
         return true;
     }
 
-    public bool TryGetTrackMap(string hashCode, out TrackMap beatMap) => trackMapDictionary.TryGetValue(hashCode, out beatMap);
+    public bool TryGetTrackMap(string hashCode, out TrackMap trackMap) {
+        TrackMapDictionaryItem trackMapDictionaryItem;
+
+        if (trackMapDictionary.TryGetValue(hashCode, out trackMapDictionaryItem))
+        {
+            trackMap = trackMapDictionaryItem.TrackMap;
+            return true;
+        }
+        else
+        {
+            trackMap = null;
+            return false;
+        }
+    }
 }
