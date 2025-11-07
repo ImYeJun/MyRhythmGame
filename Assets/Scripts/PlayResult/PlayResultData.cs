@@ -23,8 +23,8 @@ public class PlayResult : IComparable<PlayResult>
 
     // public bool IsMaxCombo { get => isMaxCombo; }
     // public bool IsPerfect { get => isPerfect; }
-    public int Score { get => score; set => score = value; }
-    public float Rate { get => rate; set => rate = value; }
+    // public int Score { get => score; set => score = value; }
+    // public float Rate { get => rate; set => rate = value; }
     // public int PerfectCount { get => perfectCount; }
     // public int EarlyNiceCount { get => earlyNiceCount; }
     // public int EarlyGoodCount { get => earlyGoodCount; }
@@ -56,18 +56,18 @@ public class PlayResult : IComparable<PlayResult>
         : this(
             isMaxCombo, isPerfect,
             CalculateScore(perfectCount, earlyNiceCount, earlyGoodCount, earlyTlqkfCount, lateNiceCount, lateGoodCount, lateTlqkfCount),
-            CaculateRate(perfectCount, earlyNiceCount, earlyGoodCount, earlyTlqkfCount, lateNiceCount, lateGoodCount, lateTlqkfCount),
+            CalculateRate(perfectCount, earlyNiceCount, earlyGoodCount, earlyTlqkfCount, lateNiceCount, lateGoodCount, lateTlqkfCount),
             perfectCount, earlyNiceCount, earlyGoodCount, earlyTlqkfCount, lateNiceCount, lateGoodCount, lateTlqkfCount)
     {}
 
     public int CompareTo(PlayResult other)
     {
-        if (rate != other.Rate)
+        if (rate != other.rate)
         {
-            return rate.CompareTo(other.Rate);
+            return rate.CompareTo(other.rate);
         }
 
-        return score.CompareTo(other.Score);
+        return score.CompareTo(other.score);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class PlayResult : IComparable<PlayResult>
     /// A floating-point percentage in the range [0,100] representing the weighted accuracy:
     /// (weightedScore / totalHits) * 100. If no notes were hit (totalHits == 0). Returns -1 if no notes were hit (all counts sum to zero)
     /// </returns>
-    public static float CaculateRate(int perfectCount, int earlyNiceCount, int earlyGoodCount, int earlyTlqkfCount, int lateNiceCount, int lateGoodCount, int lateTlqkfCount)
+    public static float CalculateRate(int perfectCount, int earlyNiceCount, int earlyGoodCount, int earlyTlqkfCount, int lateNiceCount, int lateGoodCount, int lateTlqkfCount)
     {
         int niceCount = earlyNiceCount + lateNiceCount;
         int goodCount = earlyGoodCount + lateGoodCount;
@@ -126,9 +126,9 @@ public class PlayResult : IComparable<PlayResult>
 [Serializable]
 public class PlayResultSet
 {
-    public PlayResult basicPlayerResult;
-    public PlayResult intermediatePlayerResult;
-    public PlayResult professionalPlayerResult;
+    public PlayResult basicPlayResult;
+    public PlayResult intermediatePlayResult;
+    public PlayResult professionalPlayResult;
 
     // public PlayResult BasicPlayerResult { get => basicPlayerResult; }
     // public PlayResult IntermediatePlayerResult { get => intermediatePlayerResult; }
@@ -136,32 +136,32 @@ public class PlayResultSet
 
     public PlayResultSet()
     {
-        basicPlayerResult = null;
-        intermediatePlayerResult = null;
-        professionalPlayerResult = null;
+        basicPlayResult = null;
+        intermediatePlayResult = null;
+        professionalPlayResult = null;
     }
 
-    public PlayResultSet(PlayResult basicPlayerResult, PlayResult intermediatePlayerResult, PlayResult professionalPlayerResult)
+    public PlayResultSet(PlayResult basicPlayResult, PlayResult intermediatePlayResult, PlayResult professionalPlayResult)
     {
-        this.basicPlayerResult = basicPlayerResult;
-        this.intermediatePlayerResult = intermediatePlayerResult;
-        this.professionalPlayerResult = professionalPlayerResult;
+        this.basicPlayResult = basicPlayResult;
+        this.intermediatePlayResult = intermediatePlayResult;
+        this.professionalPlayResult = professionalPlayResult;
     }
 
-    public bool TryToRenewPlayerResult(JudgeLevel judgeLevel, PlayResult playResult)
+    public bool TryRenewPlayerResult(JudgeLevel judgeLevel, PlayResult playResult)
     {
         switch (judgeLevel)
         {
             case JudgeLevel.Basic:
-                if (basicPlayerResult == null || playResult.CompareTo(basicPlayerResult) > 0) { basicPlayerResult = playResult; return true; }
+                if (basicPlayResult == null || playResult.CompareTo(basicPlayResult) > 0) { basicPlayResult = playResult; return true; }
                 break;
 
             case JudgeLevel.Intermediate:
-                if (intermediatePlayerResult == null || playResult.CompareTo(intermediatePlayerResult) > 0) { intermediatePlayerResult = playResult; return true; }
+                if (intermediatePlayResult == null || playResult.CompareTo(intermediatePlayResult) > 0) { intermediatePlayResult = playResult; return true; }
                 break;
 
             case JudgeLevel.Professional:
-                if (professionalPlayerResult == null || playResult.CompareTo(professionalPlayerResult) > 0) { professionalPlayerResult = playResult; return true; }
+                if (professionalPlayResult == null || playResult.CompareTo(professionalPlayResult) > 0) { professionalPlayResult = playResult; return true; }
                 break;
 
             default:
@@ -187,12 +187,14 @@ public class PlayResultSetJsonData
 }
 
 [Serializable]
-public class PlayResultSetsJsonData
+public class PlayResultSetListJsonData
 {
-    public List<PlayResultSetJsonData> playResultSets;
+    public List<PlayResultSetJsonData> playResultSetList = new List<PlayResultSetJsonData>();
 
-    public PlayResultSetsJsonData(List<PlayResultSetJsonData> playResultSets)
+    public PlayResultSetListJsonData(List<PlayResultSetJsonData> playResultSetList)
     {
-        this.playResultSets = playResultSets;
+        this.playResultSetList = playResultSetList;
     }
+
+    public PlayResultSetListJsonData() {}
 }

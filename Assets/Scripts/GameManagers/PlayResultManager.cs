@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public class PlayResultManager : GameManager<PlayResultManager>
 {
-    private readonly static string PLAY_RESULT_SETS_PATH = Path.Combine(Application.dataPath, "Resources/BeatMap/PlayResultSets.json");
-    private const string DEFAULT_PLAY_RESULT_SETS_FILE_CONTENT = "{ \"playResultSets\": [] }";
-    private Dictionary<string, PlayResultSet> playResultSetDict = new Dictionary<string, PlayResultSet>();
+    private readonly static string PLAY_RESULT_SET_LIST_PATH = Path.Combine(Application.dataPath, "Resources/BeatMap/PlayResultSetList.json");
+    private const string DEFAULT_PLAY_RESULT_SET_LIST_CONTENT = "{ \"playResultSetList\": [] }";
+    private Dictionary<string, PlayResultSet> playResultSetDictionary = new Dictionary<string, PlayResultSet>(); //키 값은 Track의 HashCode임
 
     protected override void Awake()
     {
@@ -15,15 +14,15 @@ public class PlayResultManager : GameManager<PlayResultManager>
 
         if (this != Instance) return;
 
-        LoadPlayResultSet();
+        LoadPlayResultSetList();
         TestAddPlayResult();
     }
 
-    public bool TryGetPlayResult(string trackHashCode, out PlayResultSet playResultSet)
+    public bool TryGetPlayResultSet(string trackHashCode, out PlayResultSet playResultSet)
     {
-        if (playResultSetDict.ContainsKey(trackHashCode))
+        if (playResultSetDictionary.ContainsKey(trackHashCode))
         {
-            playResultSet = playResultSetDict[trackHashCode];
+            playResultSet = playResultSetDictionary[trackHashCode];
             return true;
         }
 
@@ -31,65 +30,65 @@ public class PlayResultManager : GameManager<PlayResultManager>
         return false;
     }
 
-    public void RenewPlayResultSet(string trackHashCode, JudgeLevel judgeLevel, PlayResult playResult)
+    public void RenewPlayResultSetList(string trackHashCode, JudgeLevel judgeLevel, PlayResult playResult)
     {
-        if (!playResultSetDict.ContainsKey(trackHashCode))
+        if (!playResultSetDictionary.ContainsKey(trackHashCode))
         {
             PlayResultSet playResultSet = new PlayResultSet();
-            playResultSet.TryToRenewPlayerResult(judgeLevel, playResult);
-            playResultSetDict.Add(trackHashCode, playResultSet);
-            RefreshPlayResultSetsFile();
+            playResultSet.TryRenewPlayerResult(judgeLevel, playResult);
+            playResultSetDictionary.Add(trackHashCode, playResultSet);
+            RefreshPlayResultSetListFile();
         }
         else
         {
-            PlayResultSet playResultSet = playResultSetDict[trackHashCode];
-            if (playResultSet.TryToRenewPlayerResult(judgeLevel, playResult))
+            PlayResultSet existingPlayResultSet = playResultSetDictionary[trackHashCode];
+            if (existingPlayResultSet.TryRenewPlayerResult(judgeLevel, playResult))
             {
-                RefreshPlayResultSetsFile();
+                RefreshPlayResultSetListFile();
             }
         }
     }
 
-    private void RefreshPlayResultSetsFile()
+    private void RefreshPlayResultSetListFile()
     {
-        PlayResultSetsJsonData playResultSetsJsonData = new PlayResultSetsJsonData(new List<PlayResultSetJsonData>());
+        PlayResultSetListJsonData playResultSetsJsonData = new PlayResultSetListJsonData();
 
-        foreach (string trackHashCode in playResultSetDict.Keys)
+        foreach (string trackHashCode in playResultSetDictionary.Keys)
         {
-            PlayResultSetJsonData playResultSetJsonData = new PlayResultSetJsonData(trackHashCode, playResultSetDict[trackHashCode]);
-            playResultSetsJsonData.playResultSets.Add(playResultSetJsonData);
+            PlayResultSetJsonData playResultSetJsonData = new PlayResultSetJsonData(trackHashCode, playResultSetDictionary[trackHashCode]);
+            playResultSetsJsonData.playResultSetList.Add(playResultSetJsonData);
         }
         string jsonData = JsonUtility.ToJson(playResultSetsJsonData);
 
-        if (!File.Exists(PLAY_RESULT_SETS_PATH))
-        {
-            Debug.Log("PlayResultSets.json was created since there'd been no such a file.");
-            string defaultData = DEFAULT_PLAY_RESULT_SETS_FILE_CONTENT;
-            File.WriteAllText(PLAY_RESULT_SETS_PATH, defaultData);
-        }
+        EnsurePlayResultSetListFileExist();
 
-        File.WriteAllText(PLAY_RESULT_SETS_PATH, jsonData);
+        File.WriteAllText(PLAY_RESULT_SET_LIST_PATH, jsonData);
 
-        LoadPlayResultSet(); //! 성능 문제가 발생할 수도..?
+        LoadPlayResultSetList(); //! 성능 문제가 발생할 수도..?
     }
 
-    private void LoadPlayResultSet()
+    private void LoadPlayResultSetList()
     {
-        if (!File.Exists(PLAY_RESULT_SETS_PATH))
+        EnsurePlayResultSetListFileExist();
+
+        playResultSetDictionary.Clear();
+
+        string jsonData = File.ReadAllText(PLAY_RESULT_SET_LIST_PATH);
+        PlayResultSetListJsonData playerResultSetsJsonData = JsonUtility.FromJson<PlayResultSetListJsonData>(jsonData);
+
+        foreach (PlayResultSetJsonData playerResultJsonData in playerResultSetsJsonData.playResultSetList)
         {
-            Debug.Log("PlayResultSets.json was created since there'd been no such a file.");
-            string defaultData = "{}";
-            File.WriteAllText(PLAY_RESULT_SETS_PATH, defaultData);
+            playResultSetDictionary.Add(playerResultJsonData.hashCode, playerResultJsonData.playResultSet);
         }
-
-        playResultSetDict.Clear();
-
-        string jsonData = File.ReadAllText(PLAY_RESULT_SETS_PATH);
-        PlayResultSetsJsonData playerResultSetsJsonData = JsonUtility.FromJson<PlayResultSetsJsonData>(jsonData);
-
-        foreach (PlayResultSetJsonData playerResultJsonData in playerResultSetsJsonData.playResultSets)
+    }
+    
+    private void EnsurePlayResultSetListFileExist()
+    {
+        if (!File.Exists(PLAY_RESULT_SET_LIST_PATH))
         {
-            playResultSetDict.Add(playerResultJsonData.hashCode, playerResultJsonData.playResultSet);
+            Debug.Log("PlayResultSetList.json was created because no existing file was found.");
+            string defaultContent = DEFAULT_PLAY_RESULT_SET_LIST_CONTENT;
+            File.WriteAllText(PLAY_RESULT_SET_LIST_PATH, defaultContent);
         }
     }
 
@@ -109,7 +108,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
             lateTlqkfCount: 0
         );
 
-        RenewPlayResultSet(TEST_TRACK_HASH, JudgeLevel.Basic, result1);
+        RenewPlayResultSetList(TEST_TRACK_HASH, JudgeLevel.Basic, result1);
 
         // 2️⃣ Try to add LOWER score → should not replace
         var lowerResult = new PlayResult(
@@ -124,7 +123,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
             lateTlqkfCount: 1
         );
 
-        RenewPlayResultSet(TEST_TRACK_HASH, JudgeLevel.Basic, lowerResult);
+        RenewPlayResultSetList(TEST_TRACK_HASH, JudgeLevel.Basic, lowerResult);
 
         // 3️⃣ Add HIGHER score → should replace
         var higherResult = new PlayResult(
@@ -139,7 +138,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
             lateTlqkfCount: 0
         );
 
-        RenewPlayResultSet(TEST_TRACK_HASH, JudgeLevel.Basic, higherResult);
+        RenewPlayResultSetList(TEST_TRACK_HASH, JudgeLevel.Basic, higherResult);
     }
 }
 
