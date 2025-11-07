@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public struct BeatMapJsonData
+public struct TrackMapJsonData
 {
-    public BeatMapMetaData meta;
+    public TrackMapMetaData meta;
     public List<BpmPoint> bpmPoints;
     public List<Note> notes;
 
-    public BeatMapJsonData(BeatMapMetaData meta, List<BpmPoint> bpmPoints, List<Note> notes)
+    public TrackMapJsonData(TrackMapMetaData meta, List<BpmPoint> bpmPoints, List<Note> notes)
     {
         this.meta = meta;
         this.bpmPoints = bpmPoints;
@@ -30,7 +30,7 @@ public struct BpmPoint
 }
 
 [Serializable]
-public struct BeatMapMetaData
+public struct TrackMapMetaData
 {
     public string trackTitle;
     public string composer;
@@ -38,7 +38,7 @@ public struct BeatMapMetaData
     public int lobbyIntroStartTime;
     public int lobbyIntroDuration;
 
-    public BeatMapMetaData(string trackTitle, string composer, int syncDelay, int lobbyIntroStartTime, int lobbyIntroDuration)
+    public TrackMapMetaData(string trackTitle, string composer, int syncDelay, int lobbyIntroStartTime, int lobbyIntroDuration)
     {
         this.trackTitle = trackTitle;
         this.composer = composer;

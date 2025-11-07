@@ -56,7 +56,7 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
 
     private void SyncSelectedTrackToDisplay()
     {
-        BeatMap currentTrack = trackListPanel.SelectedTrack();
+        TrackMap currentTrack = trackListPanel.SelectedTrack();
         selectedTrackDisplay.SetSelectedTrack(currentTrack, trackOptionController.CurrentJudgeLevel);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayResultManager : GameManager<PlayResultManager>
 {
-    private readonly static string PLAY_RESULT_SET_LIST_PATH = Path.Combine(Application.dataPath, "Resources/BeatMap/PlayResultSetList.json");
+    private readonly static string PLAY_RESULT_SET_LIST_PATH = Path.Combine(Application.dataPath, "Resources/TrackMap/PlayResultSetList.json");
     private const string DEFAULT_PLAY_RESULT_SET_LIST_CONTENT = "{ \"playResultSetList\": [] }";
     private Dictionary<string, PlayResultSet> playResultSetDictionary = new Dictionary<string, PlayResultSet>(); //키 값은 Track의 HashCode임
 

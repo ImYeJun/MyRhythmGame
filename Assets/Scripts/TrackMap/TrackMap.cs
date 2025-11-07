@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Security.Cryptography;
 
-public class BeatMap
+public class TrackMap
 {
     private string trackTitle;
     private string composer;
@@ -35,11 +35,11 @@ public class BeatMap
     /// <summary>
     /// all path parameters must be absoulte path.
     /// </summary>
-    public BeatMap(string jsonPath, string coverImagePath, string musicPath)
+    public TrackMap(string jsonPath, string coverImagePath, string musicPath)
     {
         // JSON 읽고 필드 초기화
         string json = File.ReadAllText(jsonPath);
-        BeatMapJsonData data = JsonUtility.FromJson<BeatMapJsonData>(json);
+        TrackMapJsonData data = JsonUtility.FromJson<TrackMapJsonData>(json);
 
         trackTitle = data.meta.trackTitle;
         composer = data.meta.composer;
@@ -53,7 +53,7 @@ public class BeatMap
         if (bpmPoints.Count != 0)
         {
             float currentMinBpm, currentMaxBpm;
-            currentMinBpm = currentMaxBpm = bpmPoints[0].bpm; // BeatMap 생성시 bpmPoints의 원소가 반드시 한 개 이상임이 보장된다.
+            currentMinBpm = currentMaxBpm = bpmPoints[0].bpm; // TrackMap 생성시 bpmPoints의 원소가 반드시 한 개 이상임이 보장된다.
             foreach (BpmPoint bpmPoint in bpmPoints)
             {
                 float currentBpm = bpmPoint.bpm;

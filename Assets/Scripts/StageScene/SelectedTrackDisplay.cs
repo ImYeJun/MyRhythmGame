@@ -9,7 +9,7 @@ public class SelectedTrackDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI trackTitleText;
     [SerializeField] private TextMeshProUGUI composerText;
     [SerializeField] private TextMeshProUGUI bpmText;
-    private BeatMap selectedTrack;
+    private TrackMap selectedTrack;
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class SelectedTrackDisplay : MonoBehaviour
         bpmText.text = "Bpm : None";
     }
 
-    public void SetSelectedTrack(BeatMap track, JudgeLevel judgeLevel)
+    public void SetSelectedTrack(TrackMap track, JudgeLevel judgeLevel)
     {
         if (track == null)
         {

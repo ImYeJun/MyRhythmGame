@@ -12,7 +12,7 @@ public class TrackListPanel : MonoBehaviour
     private List<TrackListPanelItem> trackItemList = new List<TrackListPanelItem>();
 
     public bool HasReloaded { get => hasReloaded; }
-    public BeatMap SelectedTrack()
+    public TrackMap SelectedTrack()
     {
         if (trackItemList == null || IsTrackListEmpty()) return null;
         return trackItemList[selectedTrackIndex]?.BeatMap;
@@ -33,7 +33,7 @@ public class TrackListPanel : MonoBehaviour
         }
         trackItemList.Clear();
 
-        foreach (BeatMap beatMap in BeatMapManager.Instance.BeatMaps)
+        foreach (TrackMap beatMap in BeatMapManager.Instance.TrackMaps)
         {
             GameObject trackListPanelItemGameObject = Instantiate(trackListPanelItemPrefab, contentTransform, false);
             TrackListPanelItem trackListPanelItem = trackListPanelItemGameObject.GetComponent<TrackListPanelItem>(); //trackListPanelItemPrefab는 반드시 TrackListPanelItem을 갖고 있음이 보장 된다

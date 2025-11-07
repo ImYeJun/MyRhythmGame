@@ -13,10 +13,10 @@ public class TrackListPanelItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI basicResultText;
     [SerializeField] private TextMeshProUGUI intermediateResultText;
     [SerializeField] private TextMeshProUGUI professionalResultText;
-    private BeatMap beatMap;
-    public BeatMap BeatMap { get => beatMap; }
+    private TrackMap beatMap;
+    public TrackMap BeatMap { get => beatMap; }
 
-    public void Init(BeatMap beatMap)
+    public void Init(TrackMap beatMap)
     {
         this.beatMap = beatMap;
         

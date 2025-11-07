@@ -5,32 +5,32 @@ using System.Linq;
 using System;
 
 public class BeatMapManager : GameManager<BeatMapManager> {
-    private readonly static string BEAT_MAP_FOLDER_URL = Path.Combine(Application.dataPath, "Resources/BeatMap");
+    private readonly static string TRACK_MAP_FOLDER_URL = Path.Combine(Application.dataPath, "Resources/TrackMap");
 
-    private Dictionary<string, BeatMap> beatMapDictionary = new Dictionary<string, BeatMap>();
-    public List<BeatMap> BeatMaps { get => beatMapDictionary.Values.ToList(); }
+    private Dictionary<string, TrackMap> trackMapDictionary = new Dictionary<string, TrackMap>();
+    public List<TrackMap> TrackMaps { get => trackMapDictionary.Values.ToList(); }
 
     protected override void Awake()
     {
         base.Awake();
         if (Instance != this) return;
 
-        InitiateBeatMap();
+        InitiateTrackMap();
     }
 
-    private void InitiateBeatMap() {
-        string[] beatMapDataFolderPaths = Directory.GetDirectories(BEAT_MAP_FOLDER_URL);
+    private void InitiateTrackMap() {
+        string[] trackMapDataFolderPaths = Directory.GetDirectories(TRACK_MAP_FOLDER_URL);
 
-        foreach (string folderPath in beatMapDataFolderPaths)
+        foreach (string folderPath in trackMapDataFolderPaths)
         {
-            if (!TryAddBeatMap(folderPath))
+            if (!TryAddTrackMap(folderPath))
             {
-                Debug.LogError($"Failed To Load BeatMap (Path : {folderPath})");
+                Debug.LogError($"Failed To Load TrackMap (Path : {folderPath})");
             }
         }
     }
 
-    public bool TryAddBeatMap(string folderPath)
+    public bool TryAddTrackMap(string folderPath)
     {
         string[] allFilePaths = Directory.GetFiles(folderPath);
 
@@ -51,18 +51,18 @@ public class BeatMapManager : GameManager<BeatMapManager> {
             return false;
         }
 
-        BeatMap beatMap = new BeatMap(jsonPath, coverImagePath, musicPath);
+        TrackMap trackMap = new TrackMap(jsonPath, coverImagePath, musicPath);
 
-        if (beatMap.BpmPoints.Count == 0)
+        if (trackMap.BpmPoints.Count == 0)
         {
             Debug.LogError($"파일내의 Bpm 표시 형식이 유효하지 않습니다. (Path : {folderPath})");
             return false;
         }
 
-        beatMapDictionary.Add(beatMap.HashCode, beatMap);
+        trackMapDictionary.Add(trackMap.HashCode, trackMap);
 
         return true;
     }
 
-    public bool TryGetBeatMap(string hashCode, out BeatMap beatMap) => beatMapDictionary.TryGetValue(hashCode, out beatMap);
+    public bool TryGetTrackMap(string hashCode, out TrackMap beatMap) => trackMapDictionary.TryGetValue(hashCode, out beatMap);
 }
