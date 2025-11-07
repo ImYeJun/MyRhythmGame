@@ -15,7 +15,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
         if (this != Instance) return;
 
         LoadPlayResultSetList();
-        TestAddPlayResult();
+        // TestAddPlayResult();
     }
 
     public bool TryGetPlayResultSet(string trackHashCode, out PlayResultSet playResultSet)
@@ -28,6 +28,21 @@ public class PlayResultManager : GameManager<PlayResultManager>
 
         playResultSet = null;
         return false;
+    }
+
+    public bool TryGetPlayResult(string trackHashCode, JudgeLevel judgeLevel, out PlayResult playResult)
+    {
+        PlayResultSet playResultSet;
+        if (TryGetPlayResultSet(trackHashCode, out playResultSet))
+        {
+            playResult = playResultSet.GetPlayResult(judgeLevel);
+            return true;
+        }   
+        else
+        {
+            playResult = null;
+            return false;
+        }
     }
 
     public void RenewPlayResultSetList(string trackHashCode, JudgeLevel judgeLevel, PlayResult playResult)
@@ -97,6 +112,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
     {
         string TEST_TRACK_HASH = "213";
         var result1 = new PlayResult(
+            hasPlayed: true,
             isMaxCombo: false,
             isPerfect: false,
             perfectCount: 100,
@@ -112,6 +128,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
 
         // 2️⃣ Try to add LOWER score → should not replace
         var lowerResult = new PlayResult(
+            hasPlayed: true,
             isMaxCombo: false,
             isPerfect: false,
             perfectCount: 80,
@@ -127,6 +144,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
 
         // 3️⃣ Add HIGHER score → should replace
         var higherResult = new PlayResult(
+            hasPlayed: true,
             isMaxCombo: true,
             isPerfect: true,
             perfectCount: 200, // better performance

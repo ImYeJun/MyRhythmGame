@@ -1363,6 +1363,7 @@ GameObject:
   - component: {fileID: 477440774}
   - component: {fileID: 477440773}
   - component: {fileID: 477440772}
+  - component: {fileID: 477440775}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1444,6 +1445,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &477440775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477440771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1001 &501041705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2671,7 +2716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4734846660761900328, guid: 95fe5d4feece8bc4eb3c50fb2e313ddd, type: 3}
       propertyPath: m_Name
-      value: BeatMapManager
+      value: TrackMapManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3099,6 +3144,16 @@ MonoBehaviour:
   trackTitleText: {fileID: 1324671078}
   composerText: {fileID: 2137477435}
   bpmText: {fileID: 265942945}
+  judgeIndicatorTexts:
+  - {fileID: 2094554066}
+  - {fileID: 570693701}
+  - {fileID: 1643144505}
+  scoreText: {fileID: 2089762467}
+  rateText: {fileID: 1594615262}
+  perfectComboText: {fileID: 632651703}
+  niceComboText: {fileID: 1527981993}
+  goodComboText: {fileID: 2019699514}
+  tlqkfComboText: {fileID: 969308510}
 --- !u!4 &1195356673
 Transform:
   m_ObjectHideFlags: 0
@@ -5525,7 +5580,7 @@ GameObject:
   - component: {fileID: 2089762468}
   - component: {fileID: 2089762467}
   m_Layer: 5
-  m_Name: MaxComboText
+  m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5570,7 +5625,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Max Combo : 10000'
+  m_text: 'Score : 1000000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 34a7287f261c31d4dbffdc21b08c52f7, type: 2}
   m_sharedMaterial: {fileID: -2420033666366431483, guid: 34a7287f261c31d4dbffdc21b08c52f7, type: 2}

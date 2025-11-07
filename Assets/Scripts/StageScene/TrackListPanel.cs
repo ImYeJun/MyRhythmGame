@@ -15,7 +15,7 @@ public class TrackListPanel : MonoBehaviour
     public TrackMap SelectedTrack()
     {
         if (trackItemList == null || IsTrackListEmpty()) return null;
-        return trackItemList[selectedTrackIndex]?.BeatMap;
+        return trackItemList[selectedTrackIndex]?.TrackMap;
     }
     
     private void Start()

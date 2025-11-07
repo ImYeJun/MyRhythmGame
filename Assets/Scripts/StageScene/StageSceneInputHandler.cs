@@ -43,15 +43,33 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
             trackListPanel.MoveNextSelection();
             SyncSelectedTrackToDisplay();
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            trackOptionController.DowngradeJudgeLevel();
+            SyncSelectedJudgeToDisplay();
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            trackOptionController.UpgradeJudgeLevel();
+            SyncSelectedJudgeToDisplay();
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             trackOptionController.DecreaseNoteSpeed();
+            SyncSelectedJudgeToDisplay();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             trackOptionController.IncreaseNoteSpeed();
+            SyncSelectedJudgeToDisplay();
         }
+    }
+
+    private void SyncSelectedJudgeToDisplay()
+    {
+        selectedTrackDisplay.SetJudgeLevel(trackOptionController.CurrentJudgeLevel);
     }
 
     private void SyncSelectedTrackToDisplay()

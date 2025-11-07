@@ -9,6 +9,7 @@ public class PlayResult : IComparable<PlayResult>
     public const float GOOD_SCORE_RATIO = 0.2f;
     public const float MAX_SCORE = 1_000_000;
 
+    public bool hasPlayed;
     public bool isMaxCombo;
     public bool isPerfect;
     public int score;
@@ -37,8 +38,9 @@ public class PlayResult : IComparable<PlayResult>
     public int TlqkfCount { get => earlyTlqkfCount + lateTlqkfCount; }
     public int FullComboCount { get => perfectCount + NiceCount + GoodCount + TlqkfCount; }
 
-    public PlayResult(bool isMaxCombo, bool isPerfect, int score, float rate, int perfectCount, int earlyNiceCount, int earlyGoodCount, int earlyTlqkfCount, int lateNiceCount, int lateGoodCount, int lateTlqkfCount)
+    public PlayResult(bool hasPlayed, bool isMaxCombo, bool isPerfect, int score, float rate, int perfectCount, int earlyNiceCount, int earlyGoodCount, int earlyTlqkfCount, int lateNiceCount, int lateGoodCount, int lateTlqkfCount)
     {
+        this.hasPlayed = hasPlayed;
         this.isMaxCombo = isMaxCombo;
         this.score = score;
         this.rate = rate;
@@ -52,9 +54,9 @@ public class PlayResult : IComparable<PlayResult>
         this.lateTlqkfCount = lateTlqkfCount;
     }
 
-    public PlayResult(bool isMaxCombo, bool isPerfect, int perfectCount, int earlyNiceCount, int earlyGoodCount, int earlyTlqkfCount, int lateNiceCount, int lateGoodCount, int lateTlqkfCount)
+    public PlayResult(bool hasPlayed, bool isMaxCombo, bool isPerfect, int perfectCount, int earlyNiceCount, int earlyGoodCount, int earlyTlqkfCount, int lateNiceCount, int lateGoodCount, int lateTlqkfCount)
         : this(
-            isMaxCombo, isPerfect,
+            hasPlayed,isMaxCombo, isPerfect,
             CalculateScore(perfectCount, earlyNiceCount, earlyGoodCount, earlyTlqkfCount, lateNiceCount, lateGoodCount, lateTlqkfCount),
             CalculateRate(perfectCount, earlyNiceCount, earlyGoodCount, earlyTlqkfCount, lateNiceCount, lateGoodCount, lateTlqkfCount),
             perfectCount, earlyNiceCount, earlyGoodCount, earlyTlqkfCount, lateNiceCount, lateGoodCount, lateTlqkfCount)
@@ -146,6 +148,22 @@ public class PlayResultSet
         this.basicPlayResult = basicPlayResult;
         this.intermediatePlayResult = intermediatePlayResult;
         this.professionalPlayResult = professionalPlayResult;
+    }
+
+    public PlayResult GetPlayResult(JudgeLevel judgeLevel)
+    {
+        switch (judgeLevel)
+        {
+            case JudgeLevel.Basic:
+                return basicPlayResult;
+            case JudgeLevel.Intermediate:
+                return intermediatePlayResult;
+            case JudgeLevel.Professional:
+                return professionalPlayResult;
+            default:
+                Debug.LogError($"JudgeLevel for {judgeLevel} is not existing");
+                return null;
+        }
     }
 
     public bool TryRenewPlayerResult(JudgeLevel judgeLevel, PlayResult playResult)

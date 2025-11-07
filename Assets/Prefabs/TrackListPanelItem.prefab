@@ -984,6 +984,10 @@ MonoBehaviour:
   basicResultText: {fileID: 6436903795628323924}
   intermediateResultText: {fileID: 4884451759482891153}
   professionalResultText: {fileID: 4083218053549210802}
+  judgeLevelTexts:
+  - {fileID: 6436903795628323924}
+  - {fileID: 4884451759482891153}
+  - {fileID: 4083218053549210802}
 --- !u!1 &5860295473560463535
 GameObject:
   m_ObjectHideFlags: 0

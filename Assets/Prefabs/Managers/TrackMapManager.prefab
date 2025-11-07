@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1443810737229761756}
   - component: {fileID: 3336687203658844833}
   m_Layer: 0
-  m_Name: BeatMapManager
+  m_Name: TrackMapManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
