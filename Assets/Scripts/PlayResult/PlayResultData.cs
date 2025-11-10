@@ -62,6 +62,22 @@ public class PlayResult : IComparable<PlayResult>
             perfectCount, earlyNiceCount, earlyGoodCount, earlyTlqkfCount, lateNiceCount, lateGoodCount, lateTlqkfCount)
     {}
 
+    public PlayResult()
+    {
+        hasPlayed = false;
+        isMaxCombo = false;
+        isPerfect = false;
+        score = 0;
+        rate = 0;
+        perfectCount = 0;
+        earlyNiceCount = 0;
+        earlyGoodCount = 0;
+        earlyTlqkfCount = 0;
+        lateNiceCount = 0;
+        lateGoodCount = 0;
+        lateTlqkfCount = 0;
+    }
+
     public int CompareTo(PlayResult other)
     {
         if (rate != other.rate)
@@ -138,9 +154,9 @@ public class PlayResultSet
 
     public PlayResultSet()
     {
-        basicPlayResult = null;
-        intermediatePlayResult = null;
-        professionalPlayResult = null;
+        basicPlayResult = new PlayResult();
+        intermediatePlayResult = new PlayResult();
+        professionalPlayResult = new PlayResult();
     }
 
     public PlayResultSet(PlayResult basicPlayResult, PlayResult intermediatePlayResult, PlayResult professionalPlayResult)

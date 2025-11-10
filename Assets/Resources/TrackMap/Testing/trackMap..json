@@ -1,13 +1,13 @@
 {
     "meta": {
-        "trackTitle": "一人きりのエデン",
-        "composer": "D-D-Dice",
+        "trackTitle": "ANGEL TEARS",
+        "composer": "FTLFRAME",
         "syncDelay" : 1500,
         "lobbyIntroStartTime" : 3500,
         "lobbyIntroDuration" : 10000
     },
     "bpmPoints": [
-        { "bpm": 170.0, "time": 0 }
+        { "bpm": 180.0, "time": 0 }
     ],
     "notes": [
         { "beat": 1, "lane": 1, "type": 1, "length": 1 },

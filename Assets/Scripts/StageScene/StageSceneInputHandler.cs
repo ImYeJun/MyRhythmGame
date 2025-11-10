@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class StageSceneInputHandler : MonoBehaviour, IInputHandler
@@ -65,6 +66,15 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
             trackOptionController.IncreaseNoteSpeed();
             SyncSelectedJudgeToDisplay();
         }
+
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            DeletedSelectedTrack();
+        }
+        if (Input.GetKeyDown(KeyCode.Insert))
+        {
+            InsertTrack();
+        }
     }
 
     private void SyncSelectedJudgeToDisplay()
@@ -74,7 +84,28 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
 
     private void SyncSelectedTrackToDisplay()
     {
-        TrackMap currentTrack = trackListPanel.SelectedTrack();
+        TrackMap currentTrack = trackListPanel.SelectedTrack;
         selectedTrackDisplay.SetSelectedTrack(currentTrack, trackOptionController.CurrentJudgeLevel);
+    }
+
+    [ContextMenu("InsertTrack")]
+    private void InsertTrack()
+    {
+        if (TrackMapManager.Instance.TryInsertTrack())
+        {
+            trackListPanel.ReloadPanel();
+            SyncSelectedTrackToDisplay();
+            SyncSelectedJudgeToDisplay();
+        }
+    }
+
+    private void DeletedSelectedTrack()
+    {
+        if (TrackMapManager.Instance.TryDeleteTrack(trackListPanel.SelectedTrack))
+        {
+            trackListPanel.ReloadPanel();
+            SyncSelectedTrackToDisplay();
+            SyncSelectedJudgeToDisplay();
+        }
     }
 }

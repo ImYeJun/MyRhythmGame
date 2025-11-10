@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using SFB;
 using UnityEngine;
 
 public class PlayResultManager : GameManager<PlayResultManager>
@@ -30,6 +32,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
         return false;
     }
 
+    
     public bool TryGetPlayResult(string trackHashCode, JudgeLevel judgeLevel, out PlayResult playResult)
     {
         PlayResultSet playResultSet;
@@ -37,7 +40,16 @@ public class PlayResultManager : GameManager<PlayResultManager>
         {
             playResult = playResultSet.GetPlayResult(judgeLevel);
             return true;
-        }   
+        }
+        else if (TrackMapManager.Instance.HasTrackMapOfHashCode(trackHashCode))
+        {
+            playResultSet = new PlayResultSet();
+
+            playResultSetDictionary.Add(trackHashCode, playResultSet);
+            playResult = playResultSet.GetPlayResult(judgeLevel);
+
+            return true;
+        }
         else
         {
             playResult = null;
@@ -96,7 +108,7 @@ public class PlayResultManager : GameManager<PlayResultManager>
             playResultSetDictionary.Add(playerResultJsonData.hashCode, playerResultJsonData.playResultSet);
         }
     }
-    
+
     private void EnsurePlayResultSetListFileExist()
     {
         if (!File.Exists(PLAY_RESULT_SET_LIST_PATH))

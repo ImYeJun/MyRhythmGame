@@ -12,10 +12,13 @@ public class TrackListPanel : MonoBehaviour
     private List<TrackListPanelItem> trackItemList = new List<TrackListPanelItem>();
 
     public bool HasReloaded { get => hasReloaded; }
-    public TrackMap SelectedTrack()
+    public TrackMap SelectedTrack
     {
-        if (trackItemList == null || IsTrackListEmpty()) return null;
-        return trackItemList[selectedTrackIndex]?.TrackMap;
+        get
+        {
+            if (trackItemList == null || IsTrackListEmpty()) return null;
+            return trackItemList[selectedTrackIndex]?.TrackMap;
+        }
     }
     
     private void Start()
@@ -25,11 +28,12 @@ public class TrackListPanel : MonoBehaviour
 
     public void ReloadPanel()
     {
+        selectedTrackIndex = 0;
         hasReloaded = false;
 
-        foreach (var gameObject in trackItemList)
+        foreach (TrackListPanelItem trackListPanelItem in trackItemList)
         {
-            Destroy(gameObject);
+            Destroy(trackListPanelItem.gameObject);
         }
         trackItemList.Clear();
 
