@@ -184,9 +184,20 @@ public class TrackMapManager : GameManager<TrackMapManager> {
         }
     }
 
-    public bool TryDeleteTrack(TrackMap selectedTrack)
+    public bool TryDeleteTrack(TrackMap selectedTrackMap)
     {
-        return false;
+        string path = trackMapDictionary[selectedTrackMap.HashCode]?.TrackMapDataFolderPath;
+
+        if (path is null)
+        {
+            Debug.LogError($"TrackMap for the hashCode {selectedTrackMap?.HashCode} is not existing");
+            return false;
+        }
+
+        Directory.Delete(path, true);
+        trackMapDictionary.Remove(selectedTrackMap.HashCode);
+
+        return true;
     }
 
     private void EnsusreTrackMapFolderExist()
