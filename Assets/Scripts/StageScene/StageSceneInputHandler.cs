@@ -91,7 +91,8 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
     [ContextMenu("InsertTrack")]
     private void InsertTrack()
     {
-        if (TrackMapManager.Instance.TryInsertTrack())
+        Debug.Log(Application.persistentDataPath);
+        if (TrackMapManager.Instance.TryLoadTrackMap())
         {
             trackListPanel.ReloadPanel();
             SyncSelectedTrackToDisplay();

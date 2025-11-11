@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayResultManager : GameManager<PlayResultManager>
 {
-    private readonly static string PLAY_RESULT_SET_LIST_PATH = Path.Combine(Application.dataPath, "Resources/TrackMap/PlayResultSetList.json");
+    private static string PLAY_RESULT_SET_LIST_PATH;
     private const string DEFAULT_PLAY_RESULT_SET_LIST_CONTENT = "{ \"playResultSetList\": [] }";
     private Dictionary<string, PlayResultSet> playResultSetDictionary = new Dictionary<string, PlayResultSet>(); //키 값은 Track의 HashCode임
 
@@ -16,8 +16,8 @@ public class PlayResultManager : GameManager<PlayResultManager>
 
         if (this != Instance) return;
 
+        PLAY_RESULT_SET_LIST_PATH = Path.Combine(Application.persistentDataPath, "PlayResultSetList.json");
         LoadPlayResultSetList();
-        // TestAddPlayResult();
     }
 
     public bool TryGetPlayResultSet(string trackHashCode, out PlayResultSet playResultSet)
@@ -31,8 +31,22 @@ public class PlayResultManager : GameManager<PlayResultManager>
         playResultSet = null;
         return false;
     }
-
     
+    /// <summary>
+    /// Attempts to retrieve a play result for a specific track and judge level.
+    /// </summary>
+    /// <param name="trackHashCode">The hash code identifying the track.</param>
+    /// <param name="judgeLevel">The difficulty level of judgment.</param>
+    /// <param name="playResult">When this method returns, contains the play result if found; otherwise, null.</param>
+    /// <returns>
+    /// <c>true</c> if a play result was found or successfully created; otherwise, <c>false</c>.
+    /// If <c>true</c>, the playResult parameter will contain the valid play result.
+    /// If <c>false</c>, the playResult parameter will be set to null.
+    /// </returns>
+    /// <remarks>
+    /// If no existing play result is found but the track exists in TrackMapManager,
+    /// a new PlayResultSet will be created and stored in the dictionary.
+    /// </remarks>
     public bool TryGetPlayResult(string trackHashCode, JudgeLevel judgeLevel, out PlayResult playResult)
     {
         PlayResultSet playResultSet;

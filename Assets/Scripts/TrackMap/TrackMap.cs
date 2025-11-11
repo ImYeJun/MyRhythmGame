@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
+using UnityEngine.Networking;
 
 public class TrackMap
 {
@@ -65,37 +67,75 @@ public class TrackMap
             maxBpm = currentMaxBpm;
         }
 
-        // Resources 상대 경로 변환
-        string coverResourcePath = ConvertToResourcesPath(coverImagePath);
-        string musicResourcePath = ConvertToResourcesPath(musicPath);
-
-        // Sprite, AudioClip 로드
-        coverImage = Resources.Load<Sprite>(coverResourcePath);
-        clip = Resources.Load<AudioClip>(musicResourcePath);
+        // Sprite, AudioClip 직접 로드
+        coverImage = LoadSpriteFromFile(coverImagePath);
+        LoadAudioClipAsync(musicPath).ContinueWith(task =>
+        {
+            clip = task.Result;
+        });
         
         // hashCode 구하기
         hashCode = GenerateSHA256FromFiles(jsonPath, coverImagePath, musicPath);
     }
 
-    /// <summary>
-    /// 절대 경로나 Resources 하위 경로를 Resources.Load에서 쓸 수 있는 형태로 변환
-    /// </summary>
-    private string ConvertToResourcesPath(string path)
+    private Sprite LoadSpriteFromFile(string path)
     {
-        // 확장자 제거
-        path = Path.ChangeExtension(path, null);
-
-        // 경로 정규화 (\\ → /)
-        path = path.Replace("\\", "/");
-
-        // "Assets/Resources/" 포함 시 해당 부분 제거
-        int index = path.IndexOf("Resources/");
-        if (index >= 0)
+        if (!File.Exists(path))
         {
-            path = path.Substring(index + "Resources/".Length);
+            Debug.LogWarning($"Cover image not found: {path}");
+            return null;
         }
 
-        return path;
+        byte[] imageBytes = File.ReadAllBytes(path);
+        Texture2D tex = new Texture2D(2, 2);
+        if (!tex.LoadImage(imageBytes))
+        {
+            Debug.LogWarning($"Failed to load image: {path}");
+            return null;
+        }
+        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+    }
+
+    private async Task<AudioClip> LoadAudioClipAsync(string path)
+    {
+        if (!File.Exists(path))
+        {
+            Debug.LogWarning($"Audio file not found: {path}");
+            return null;
+        }
+
+        string url = "file://" + path;
+        AudioType audioType = GetAudioTypeFromExtension(path);
+
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, audioType))
+        {
+            var operation = www.SendWebRequest();
+
+            while (!operation.isDone)
+                await Task.Yield();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogWarning($"Failed to load audio: {path}, error: {www.error}");
+                return null;
+            }
+
+            return DownloadHandlerAudioClip.GetContent(www);
+        }
+    }
+
+    private AudioType GetAudioTypeFromExtension(string path)
+    {
+        string ext = Path.GetExtension(path).ToLower();
+        switch (ext)
+        {
+            case ".wav": return AudioType.WAV;
+            case ".mp3": return AudioType.MPEG;
+            case ".ogg": return AudioType.OGGVORBIS;
+            default:
+                Debug.LogWarning($"Unknown audio format for {path}, defaulting to WAV.");
+                return AudioType.WAV;
+        }
     }
 
     private string GenerateSHA256FromFiles(string jsonPath, string coverPath, string musicPath)
