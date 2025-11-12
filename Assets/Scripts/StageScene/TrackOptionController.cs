@@ -24,7 +24,7 @@ public class TrackOptionController : MonoBehaviour
             {
                 if (value >= MIN_NOTE_SPEED - EPSILON && value <= MAX_NOTE_SPEED + EPSILON)
                 {
-                    currentNoteSpeed = value;
+                    currentNoteSpeed = (float)(Math.Round(value * 10) / 10);
                     syncNoteSpeedUI();
                 }
             }
@@ -32,7 +32,7 @@ public class TrackOptionController : MonoBehaviour
 
     private void syncNoteSpeedUI()
     {
-        noteSpeedText.text = currentNoteSpeed.ToString("F1");
+        noteSpeedText.text = currentNoteSpeed.ToString();
     }
 
     public JudgeLevel CurrentJudgeLevel { get => currentJudgeLevel; set => currentJudgeLevel = value; }

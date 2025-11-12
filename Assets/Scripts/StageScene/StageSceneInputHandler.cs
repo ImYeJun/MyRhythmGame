@@ -29,67 +29,75 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
 
     public void ProcessInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            GameSceneManager.Instance.LoadScene(GameSceneManager.SceneType.MainMenuScene);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            trackListPanel.MovePreviousSelection();
-            SyncSelectedTrackToDisplay();
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            trackListPanel.MoveNextSelection();
-            SyncSelectedTrackToDisplay();
-        }
+        if (Input.GetKeyDown(KeyCode.Escape)) { ReturnToMainMenuScene(); } 
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            trackOptionController.DowngradeJudgeLevel();
-            SyncSelectedJudgeToDisplay();
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            trackOptionController.UpgradeJudgeLevel();
-            SyncSelectedJudgeToDisplay();
-        }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) { MovePreviousSelection(); } 
+        if (Input.GetKeyDown(KeyCode.DownArrow)) { MoveNextSelection(); } 
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            trackOptionController.DecreaseNoteSpeed();
-            SyncSelectedJudgeToDisplay();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            trackOptionController.IncreaseNoteSpeed();
-            SyncSelectedJudgeToDisplay();
-        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { DowngradeJudgeLevel(); } 
+        if (Input.GetKeyDown(KeyCode.RightArrow)) { UpgradeJudgeLevel(); } 
 
-        if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            DeletedSelectedTrack();
-        }
-        if (Input.GetKeyDown(KeyCode.Insert))
-        {
-            InsertTrack();
-        }
+        if (Input.GetKeyDown(KeyCode.Alpha1)) { DecreaseNoteSpeed(); } 
+        if (Input.GetKeyDown(KeyCode.Alpha2)) { IncreaseNoteSpeed(); } 
+
+        if (Input.GetKeyDown(KeyCode.Delete)) { DeletedSelectedTrack(); } 
+        if (Input.GetKeyDown(KeyCode.Insert)) { InsertTrack(); } 
+
+        if (Input.GetKeyDown(KeyCode.Return)) { EngageTrack(); } 
     }
 
-    private void SyncSelectedJudgeToDisplay()
+    public void ReturnToMainMenuScene()
     {
-        selectedTrackDisplay.SetJudgeLevel(trackOptionController.CurrentJudgeLevel);
+        GameSceneManager.Instance.LoadScene(GameSceneManager.SceneType.MainMenuScene);
     }
 
-    private void SyncSelectedTrackToDisplay()
+    public void MovePreviousSelection()
     {
-        TrackMap currentTrack = trackListPanel.SelectedTrack;
-        selectedTrackDisplay.SetSelectedTrack(currentTrack, trackOptionController.CurrentJudgeLevel);
+        trackListPanel.MovePreviousSelection();
+        SyncSelectedTrackToDisplay();
+    }
+    public void MoveNextSelection()
+    {
+        trackListPanel.MoveNextSelection();
+        SyncSelectedTrackToDisplay();
     }
 
-    [ContextMenu("InsertTrack")]
-    private void InsertTrack()
+    public void DowngradeJudgeLevel()
+    {
+        trackOptionController.DowngradeJudgeLevel();
+        SyncSelectedJudgeToDisplay();
+    }
+    public void UpgradeJudgeLevel()
+    {
+        trackOptionController.UpgradeJudgeLevel();
+        SyncSelectedJudgeToDisplay();
+    }
+    public void SetJudgeLevel(JudgeLevel judgeLevel) {
+        trackOptionController.CurrentJudgeLevel = judgeLevel;
+        SyncSelectedJudgeToDisplay();
+    }
+    
+    public void DecreaseNoteSpeed()
+    {
+        trackOptionController.DecreaseNoteSpeed();
+        SyncSelectedJudgeToDisplay();
+    }
+    public void IncreaseNoteSpeed()
+    {
+        trackOptionController.IncreaseNoteSpeed();
+        SyncSelectedJudgeToDisplay();
+    }
+
+    public void DeletedSelectedTrack()
+    {
+        if (TrackMapManager.Instance.TryDeleteTrack(trackListPanel.SelectedTrack))
+        {
+            trackListPanel.ReloadPanel();
+            SyncSelectedTrackToDisplay();
+            SyncSelectedJudgeToDisplay();
+        }
+    }
+    public void InsertTrack()
     {
         Debug.Log(Application.persistentDataPath);
         if (TrackMapManager.Instance.TryLoadTrackMap())
@@ -100,13 +108,26 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
         }
     }
 
-    private void DeletedSelectedTrack()
+    public void EngageTrack()
     {
-        if (TrackMapManager.Instance.TryDeleteTrack(trackListPanel.SelectedTrack))
+        if (trackListPanel.SelectedTrack is not null)
         {
-            trackListPanel.ReloadPanel();
-            SyncSelectedTrackToDisplay();
-            SyncSelectedJudgeToDisplay();
+            JudgeLevel selectedJudgeLevel = trackOptionController.CurrentJudgeLevel;
+            float selectedNoteSpeed = trackOptionController.CurrentNoteSpeed;
+
+            //* This code will be replaced with the Engage System call implementation later.
+            Debug.Log($"Track Title : {trackListPanel.SelectedTrack.TrackTitle}, Judge Level : {selectedJudgeLevel}, Note Speed : {selectedNoteSpeed}");
         }
+    }
+    
+    private void SyncSelectedJudgeToDisplay()
+    {
+        selectedTrackDisplay.SetJudgeLevel(trackOptionController.CurrentJudgeLevel);
+    }
+
+    private void SyncSelectedTrackToDisplay()
+    {
+        TrackMap currentTrack = trackListPanel.SelectedTrack;
+        selectedTrackDisplay.SetSelectedTrack(currentTrack, trackOptionController.CurrentJudgeLevel);
     }
 }
