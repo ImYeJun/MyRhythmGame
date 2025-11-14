@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TrackListPanel : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class TrackListPanel : MonoBehaviour
 
     [SerializeField] private Transform contentTransform;
     [SerializeField] private GameObject trackListPanelItemPrefab;
+    [SerializeField] private GameObject insertTrackButtonPrefab;
+    [SerializeField] private UnityEvent onInsertTrackButtonPressed;
+    [SerializeField] private UnityEvent<int> onTrackListPanelItemPressed;
+
     private List<TrackListPanelItem> trackItemList = new List<TrackListPanelItem>();
 
     public bool HasReloaded { get => hasReloaded; }
@@ -37,15 +42,22 @@ public class TrackListPanel : MonoBehaviour
         }
         trackItemList.Clear();
 
-        foreach (TrackMap beatMap in TrackMapManager.Instance.TrackMaps)
+        for (int index = 0; index < TrackMapManager.Instance.TrackMaps.Count; index++)
         {
+            TrackMap trackMap = TrackMapManager.Instance.TrackMaps[index];
             GameObject trackListPanelItemGameObject = Instantiate(trackListPanelItemPrefab, contentTransform, false);
             TrackListPanelItem trackListPanelItem = trackListPanelItemGameObject.GetComponent<TrackListPanelItem>(); //trackListPanelItemPrefab는 반드시 TrackListPanelItem을 갖고 있음이 보장 된다
-            trackListPanelItem.Init(beatMap);
+            trackListPanelItem.Init(trackMap, index, onTrackListPanelItemPressed);
 
             trackItemList.Add(trackListPanelItem);
         }
 
+        GameObject addTrackButton = Instantiate(insertTrackButtonPrefab);
+        StageSceneButton stageSceneButton = addTrackButton.GetComponent<StageSceneButton>();
+        if (stageSceneButton is null) { stageSceneButton = addTrackButton.AddComponent<StageSceneButton>(); }
+        stageSceneButton.OnClick = onInsertTrackButtonPressed;
+        addTrackButton.transform.SetParent(contentTransform);
+        
         MoveSelection(0, clearPrevious : false); // Track List을 띄운 후 맨 앞에 있는 것을 선택함
 
         hasReloaded = true;

@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(TrackListPanelItemButton))]
 public class TrackListPanelItem : MonoBehaviour
 {
     private static readonly Color SELECTED_COLOR;
@@ -33,10 +35,16 @@ public class TrackListPanelItem : MonoBehaviour
 
     [SerializeField] private List<TextMeshProUGUI> judgeLevelTexts;
 
+    private TrackListPanelItemButton button;
+
     private TrackMap trackMap;
     public TrackMap TrackMap { get => trackMap; }
 
-    public void Init(TrackMap trackMap)
+    private void Awake() {
+        button = GetComponent<TrackListPanelItemButton>();
+    }
+
+    public void Init(TrackMap trackMap, int index, UnityEvent<int> onClick)
     {
         this.trackMap = trackMap;
 
@@ -49,6 +57,9 @@ public class TrackListPanelItem : MonoBehaviour
         if (minBpm == maxBpm) { bpmTextContent = minBpm.ToString(); }
         else { bpmTextContent = $"{minBpm} ~ {maxBpm}"; }
         bpmText.text = bpmTextContent;
+
+        button.OnClick = onClick;
+        button.Index = index;
 
         RefreshPlayResultEffect();
         SetDefault();

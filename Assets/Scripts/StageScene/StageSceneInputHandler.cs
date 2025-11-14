@@ -61,6 +61,11 @@ public class StageSceneInputHandler : MonoBehaviour, IInputHandler
         trackListPanel.MoveNextSelection();
         SyncSelectedTrackToDisplay();
     }
+    public void MoveSelection(int index)
+    {
+        trackListPanel.MoveSelection(index);
+        SyncSelectedTrackToDisplay();
+    }
 
     public void DowngradeJudgeLevel()
     {

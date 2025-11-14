@@ -4170,6 +4170,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contentTransform: {fileID: 757924905}
   trackListPanelItemPrefab: {fileID: 5578918143006153048, guid: 73b4c6ef2e0d3224a908ab4cf06c2c96, type: 3}
+  insertTrackButtonPrefab: {fileID: 5578918143006153048, guid: 7df8102a58fc1024eb08f8c831b41b15, type: 3}
+  onInsertTrackButtonPressed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 12990398}
+        m_TargetAssemblyTypeName: StageSceneInputHandler, Assembly-CSharp
+        m_MethodName: InsertTrack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onTrackListPanelItemPressed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 12990398}
+        m_TargetAssemblyTypeName: StageSceneInputHandler, Assembly-CSharp
+        m_MethodName: MoveSelection
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1413531544
 Transform:
   m_ObjectHideFlags: 0
